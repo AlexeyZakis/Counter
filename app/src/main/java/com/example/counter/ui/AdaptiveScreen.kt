@@ -15,15 +15,18 @@ import androidx.compose.ui.unit.dp
 fun AdaptiveScreen(
     isLandscape: Boolean,
     modifier: Modifier = Modifier,
-    content: @Composable () -> Unit,
+    content1: @Composable (modifier: Modifier) -> Unit,
+    content2: @Composable (modifier: Modifier) -> Unit,
 ) {
     if (isLandscape) {
         Row(modifier) {
-            content()
+            content1(Modifier.weight(1f))
+            content2(Modifier.weight(1f))
         }
     } else {
         Column(modifier) {
-            content()
+            content1(Modifier.weight(1f))
+            content2(Modifier.weight(1f))
         }
     }
 }
@@ -32,20 +35,26 @@ fun AdaptiveScreen(
 @Composable
 private fun AdaptiveScreenLandscapePreview() {
     AdaptiveScreen(
-        isLandscape = false
-    ) {
-        Box(Modifier.size(40.dp).background(Color.Green.copy(alpha = 0.5f)))
-        Box(Modifier.size(40.dp).background(Color.Blue.copy(alpha = 0.5f)))
-    }
+        isLandscape = false,
+        content1 = {
+            Box(Modifier.size(40.dp).background(Color.Green.copy(alpha = 0.5f)))
+        },
+        content2 = {
+            Box(Modifier.size(40.dp).background(Color.Blue.copy(alpha = 0.5f)))
+        }
+    )
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun AdaptiveScreenPortraitPreview() {
     AdaptiveScreen(
-        isLandscape = true
-    ) {
-        Box(Modifier.size(40.dp).background(Color.Green.copy(alpha = 0.5f)))
-        Box(Modifier.size(40.dp).background(Color.Blue.copy(alpha = 0.5f)))
-    }
+        isLandscape = true,
+        content1 = {
+            Box(Modifier.size(40.dp).background(Color.Green.copy(alpha = 0.5f)))
+        },
+        content2 = {
+            Box(Modifier.size(40.dp).background(Color.Blue.copy(alpha = 0.5f)))
+        }
+    )
 }

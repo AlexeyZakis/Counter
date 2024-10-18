@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -19,24 +20,25 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun Counter(
     modifier: Modifier = Modifier,
-    initValue: Int = 0,
+    counter: Int,
     topColor: Color = Color.Green,
     bottomColor: Color = Color.Red,
+    onTopClick: () -> Unit,
+    onBottomClick: () -> Unit,
 ) {
-    var counter by rememberSaveable { mutableIntStateOf(initValue) }
     Box(
         modifier = modifier
     ) {
         Column {
             ClickField(
-                onClick = { ++counter },
+                onClick = { onTopClick() },
                 modifier = Modifier
                     .background(topColor)
                     .fillMaxSize()
                     .weight(1f)
             )
             ClickField(
-                onClick = { --counter },
+                onClick = { onBottomClick() },
                 modifier = Modifier
                     .background(bottomColor)
                     .fillMaxSize()
@@ -59,7 +61,10 @@ fun Counter(
 @Composable
 private fun CounterPreview() {
     Counter(
+        counter = 0,
         topColor = Color(0xFF5276B7),
         bottomColor = Color(0xAA5276B7),
+        onTopClick = {},
+        onBottomClick = {},
     )
 }

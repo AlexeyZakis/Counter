@@ -1,12 +1,18 @@
 package com.example.counter.ui
 
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
@@ -20,47 +26,35 @@ fun ClickerScreen() {
     val topColor2 = Color(0xff8fbbe8)
     val bottomColor2 = Color(0xbb8fbbe8)
 
-    Scaffold(
+    var counter1 by rememberSaveable { mutableIntStateOf(0) }
+    var counter2 by rememberSaveable { mutableIntStateOf(0) }
+
+    Box(
         modifier =
             Modifier.fillMaxSize()
-    ) { innerPadding ->
-        if (isLandscape) {
-            Row(
-                modifier = Modifier
-                    .padding(innerPadding)
-            ) {
+    ) {
+        AdaptiveScreen(isLandscape = isLandscape,
+            content1 = {
                 Counter(
+                    counter = counter1,
                     topColor = topColor1,
                     bottomColor = bottomColor1,
-                    modifier = Modifier
-                        .weight(1f)
+                    onTopClick = { ++counter1 },
+                    onBottomClick = { --counter1 },
+                    modifier = it,
                 )
+           },
+            content2 = {
                 Counter(
+                    counter = counter2,
                     topColor = topColor2,
                     bottomColor = bottomColor2,
-                    modifier = Modifier
-                        .weight(1f)
+                    onTopClick = { ++counter2 },
+                    onBottomClick = { --counter2 },
+                    modifier = it,
                 )
             }
-        } else {
-            Column(
-                modifier = Modifier
-                    .padding(innerPadding)
-            ) {
-                Counter(
-                    topColor = topColor1,
-                    bottomColor = bottomColor1,
-                    modifier = Modifier
-                        .weight(1f)
-                )
-                Counter(
-                    topColor = topColor2,
-                    bottomColor = bottomColor2,
-                    modifier = Modifier
-                        .weight(1f)
-                )
-            }
-        }
+        )
     }
 }
 
